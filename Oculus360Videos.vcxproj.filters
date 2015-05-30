@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source files">
+      <UniqueIdentifier>{910c7d11-6308-4851-8df8-4fa0137c778d}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Java Source Files">
+      <UniqueIdentifier>{9cceb4c3-bab6-4077-bc64-5b2919494b0c}</UniqueIdentifier>
+      <Extensions>*.java</Extensions>
+    </Filter>
+    <Filter Include="Java Source Files\com">
+      <UniqueIdentifier>{ecfc1506-0591-45ae-8c16-27c5a4668600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Java Source Files\com\oculus">
+      <UniqueIdentifier>{acf4b82e-da1f-451d-a9c5-dfb660589396}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Java Source Files\com\oculus\oculus360videos">
+      <UniqueIdentifier>{119c73ce-120d-4fdb-bdaf-9071fb4c1df8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="AndroidManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="jni\Android.mk" />
+    <None Include="jni\Application.mk" />
+    <None Include="src\com\oculus\oculus360videos\MainActivity.java">
+      <Filter>Java Source Files\com\oculus\oculus360videos</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="jni\Oculus360Videos.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\VideoBrowser.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\VideoMenu.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\OVR_TurboJpeg.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+    <ClCompile Include="jni\VideosMetaData.cpp">
+      <Filter>Source files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="jni\Oculus360Videos.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\VideoBrowser.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\VideoMenu.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\OVR_TurboJpeg.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\turbojpeg.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+    <ClInclude Include="jni\VideosMetaData.h">
+      <Filter>Source files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
