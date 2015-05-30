@@ -231,6 +231,56 @@ public class MainActivity extends VrActivity implements SurfaceHolder.Callback,
 		}
 	}
 
+	// customize
+	public void seekToRelativeFromNative( final int relativePos ) {
+		Log.d( TAG, "seekToRelativeFromNative to " + relativePos );
+		try {
+			if (mediaPlayer != null) {
+				int curPos = mediaPlayer.getCurrentPosition();
+				int seekPos = curPos + relativePos;
+				if (seekPos < 0) seekPos = 0;
+
+				int duration = mediaPlayer.getDuration();
+				if (duration != -1 && seekPos > duration) seekPos = duration;
+
+				mediaPlayer.seekTo(seekPos);
+			}
+		}
+		catch( IllegalStateException ise ) {
+			Log.d( TAG, "seekToFromNative(): Caught illegalStateException: " + ise.toString() );
+		}
+	}
+
+	// customize
+	public int getCurrentPositionFromNative() {
+		Log.d( TAG, "getCurrentPositionFromNative");
+		try {
+			if (mediaPlayer != null) {
+				return mediaPlayer.getCurrentPosition();
+			}
+			return -1;
+		}
+		catch( IllegalStateException ise ) {
+			Log.d( TAG, "getCurrentPositionFromNative(): Caught illegalStateException: " + ise.toString() );
+			return -1;
+		}
+	}
+
+	// customize
+	public int getDurationFromNative() {
+		Log.d( TAG, "getDurationFromNative");
+		try {
+			if (mediaPlayer != null) {
+				return mediaPlayer.getDuration();
+			}
+			return -1;
+		}
+		catch( IllegalStateException ise ) {
+			Log.d( TAG, "getDurationFromNative(): Caught illegalStateException: " + ise.toString() );
+			return -1;
+		}
+	}
+
 	// called from native code for starting movie
 	public void startMovieFromNative( final String pathName ) {
 		Log.d( TAG, "startMovieFromNative" );
