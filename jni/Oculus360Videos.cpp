@@ -761,6 +761,51 @@ void Oculus360Videos::SeekTo( const int seekPos )
 	}
 }
 
+void Oculus360Videos::SeekToRelative( const int seekRelativePos )
+{
+	if ( ActiveVideo )
+	{
+		jmethodID seekToMethodId = app->GetVrJni()->GetMethodID( MainActivityClass,
+			"seekToRelativeFromNative", "(I)V" );
+
+		if ( !seekToMethodId )
+		{
+			LOG( "Couldn't find seekToMethodId methodID" );
+			return;
+		}
+
+		app->GetVrJni()->CallVoidMethod( app->GetJavaObject(), seekToMethodId, seekRelativePos );
+
+		LOG( "SeekToRelative %i done", seekRelativePos );
+	}
+}
+
+int Oculus360Videos::GetCurrentPosition() const
+{
+	jmethodID methodId = app->GetVrJni()->GetMethodID( MainActivityClass, "getCurrentPositionFromNative", "()I" );
+	if ( !methodId )
+	{
+		LOG( "Couldn't find getCurrentPositionFromNative methodID" );
+		return -1;
+	}
+
+	int curPos = app->GetVrJni()->CallIntMethod( app->GetJavaObject(), methodId );
+	return curPos;
+}
+
+int Oculus360Videos::GetDuration() const
+{
+	jmethodID methodId = app->GetVrJni()->GetMethodID( MainActivityClass, "getDurationFromNative", "()I" );
+	if ( !methodId )
+	{
+		LOG( "Couldn't find getDurationFromNative methodID" );
+		return -1;
+	}
+
+	int duration = app->GetVrJni()->CallIntMethod( app->GetJavaObject(), methodId );
+	return duration;
+}
+
 void Oculus360Videos::SetMenuState( const OvrMenuState state )
 {
 	OvrMenuState lastState = MenuState;
@@ -845,6 +890,34 @@ Matrix4f Oculus360Videos::Frame( const VrFrame vrFrame )
 
 	if ( MenuState != MENU_BROWSER && MenuState != MENU_VIDEO_LOADING )
 	{
+		if (MenuState == MENU_VIDEO_PLAYING)
+		{
+			if (vrFrame.Input.buttonPressed & (BUTTON_SWIPE_BACK | BUTTON_DPAD_LEFT | BUTTON_LSTICK_LEFT))
+			{
+				//swipeFraction 0.0~1.0 * 10sec
+				int relativePos = (int)vrFrame.Input.swipeFraction * -(10000);
+				SeekToRelative(relativePos);
+			}
+			else if (vrFrame.Input.buttonPressed & (BUTTON_SWIPE_FORWARD | BUTTON_DPAD_RIGHT | BUTTON_LSTICK_RIGHT))
+			{
+				//swipeFraction 0.0~1.0 * 10sec
+				int relativePos = vrFrame.Input.swipeFraction * (10000);
+				SeekToRelative(relativePos);
+			}
+			else if (vrFrame.Input.buttonPressed & (BUTTON_SWIPE_UP | BUTTON_DPAD_UP | BUTTON_LSTICK_UP))
+			{
+				//swipeFraction 0.0~1.0 * 5min
+				int relativePos = vrFrame.Input.swipeFraction * (1000 * 60 * 5);
+				SeekToRelative(relativePos);
+			}
+			else if (vrFrame.Input.buttonPressed & (BUTTON_SWIPE_DOWN | BUTTON_DPAD_DOWN | BUTTON_LSTICK_DOWN))
+			{
+				//swipeFraction 0.0~1.0 * 5sec
+				int relativePos = vrFrame.Input.swipeFraction * -(1000 * 60 * 5);
+				SeekToRelative(relativePos);
+			}
+		}
+
 		if ( vrFrame.Input.buttonReleased & ( BUTTON_TOUCH | BUTTON_A ) )
 		{
 			app->PlaySound( "sv_release_active" );

@@ -67,6 +67,9 @@ public:
 
 	void 				StartVideo( const double nowTime );
 	void				SeekTo( const int seekPos );
+	void				SeekToRelative( const int seekRelativePos );
+	int					GetCurrentPosition() const;
+	int					GetDuration() const;
 
 	void 				CloseSwipeView( const VrFrame &vrFrame );
 	void 				OpenSwipeView( const VrFrame &vrFrame, bool centerList );
